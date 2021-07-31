@@ -22,22 +22,27 @@ const IndexPage = () => {
     let logout = () => {
         netlifyAuth.signout(() => {
             setLoggedIn(false)
-            setUser(null)
+            setUser(user)
         })
     }
 
       return (
-          loggedIn
-              ? (
-                  <div>
-                    You are logged in!
-                  </div>
-              ) : (
-                  <button onClick={login}>
-                    Log in here.
-                  </button>
-              )
+          loggedIn ? (
+              <div>
+                  You are logged in!
 
+                     {user && <>Welcome {user?.user_metadata.full_name}!</>}
+                  <br />
+                     <button onClick={logout}>
+
+                  Log out here.
+              </button>
+              </div>
+          ) : (
+              <button onClick={login}>
+                  Log in here.
+              </button>
+          )
       )
 }
 
