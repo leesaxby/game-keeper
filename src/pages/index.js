@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from "react"
-import netlifyAuth from './netlifyAuth.js'
+import netlifyAuth from '../netlifyAuth.js'
 
 const IndexPage = () => {
     let [loggedIn, setLoggedIn] = useState(netlifyAuth.isAuthenticated)
