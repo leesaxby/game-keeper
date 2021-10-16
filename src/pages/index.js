@@ -11,6 +11,16 @@ const IndexPage = () => {
         })
      }, [loggedIn])
 
+    useEffect(() => {
+        fetch('/.netlify/functions/player-all')
+            .then(res => res.json())
+            .then(res => {
+                console.log(res[0].data)
+            })
+            .catch(err => console.log(err))
+
+    })
+
     let login = () => {
         netlifyAuth.authenticate((user) => {
             setLoggedIn(!!user)
@@ -25,13 +35,6 @@ const IndexPage = () => {
             setUser(user)
         })
     }
-
-    fetch('/.netlify/functions/player-all')
-        .then(res => res.json())
-        .then(res => {
-            console.log(res[0].data)
-        })
-        .catch(err => console.log(err))
 
       return (
           loggedIn ? (
