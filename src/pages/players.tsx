@@ -43,7 +43,7 @@ const Players = () => {
                                     maxWidth: 345,
                                     minWidth: 300
                                 }}>
-                                    <StaticImage src="../../images/person-placeholder.jpeg" alt="Player" />
+                                    <StaticImage src="../images/person-placeholder.jpeg" alt="Player" />
                                     <CardContent>
                                         <Typography gutterBottom variant="h5" component="div">
                                             {data.name}
