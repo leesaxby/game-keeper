@@ -1,13 +1,13 @@
 import React from 'react';
 import Layout from '../components/layout';
 
-const App = () => {
+const Results = () => {
 
     return (
         <Layout>
-           <div>App</div>
+           Results
         </Layout>
     )
 }
 
-export default App;
+export default Results;

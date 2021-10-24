@@ -35,7 +35,7 @@ const Index = () => {
     return (
         <>
             loggedIn ? (
-            <App />
+                <App />
             ) : (
                  <button onClick={login}>
                      Log in here.
