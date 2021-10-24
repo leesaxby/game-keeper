@@ -14,30 +14,36 @@ const Index = () => {
         })
     }
 
-    // const logout = () => {
-    //     netlifyAuth.signout(() => {
-    //         setLoggedIn(false)
-    //         setUser(user)
-    //     })
-    // }
-
-    useEffect(() => {
-        netlifyAuth.initialize((user) => {
-            setLoggedIn(!!user)
+    const logout = () => {
+        netlifyAuth.signout(() => {
+            setLoggedIn(false)
+            setUser(user)
         })
-    }, [loggedIn])
-
-    useEffect(() => {
-        if (!loggedIn) login();
-    }, [loggedIn])
+    }
+    //
+    // useEffect(() => {
+    //     netlifyAuth.initialize((user) => {
+    //         setLoggedIn(!!user)
+    //     })
+    // }, [loggedIn])
+    //
+    // useEffect(() => {
+    //     if (!loggedIn) login();
+    // }, [loggedIn])
 
 
     return (
-        loggedIn ? (<App />) : (
-            <button onClick={login}>
-                Log in here.
-            </button>
-        )
+        <>
+
+        <App />
+        </>
+        // loggedIn ? (
+        // <App />
+        // ) : (
+        //     <button onClick={login}>
+        //         Log in here.
+        //     </button>
+        // )
     )
 }
 
