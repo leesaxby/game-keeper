@@ -19,7 +19,7 @@ const Players = () => {
     const [players, setPlayers] = useState([]);
 
     useEffect(() => {
-        fetch('/.netlify/functions/player-all')
+        fetch('/.netlify/functions/players')
             .then(res => res.json())
             .then(res => setPlayers(res))
             .catch(err => console.log(err))
