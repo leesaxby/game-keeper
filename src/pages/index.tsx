@@ -14,12 +14,12 @@ const Index = () => {
         })
     }
 
-    // const logout = () => {
-    //     netlifyAuth.signout(() => {
-    //         setLoggedIn(false)
-    //         setUser(user)
-    //     })
-    // }
+    const logout = () => {
+        netlifyAuth.signout(() => {
+            setLoggedIn(false)
+            setUser(user)
+        })
+    }
 
     useEffect(() => {
         netlifyAuth.initialize((user) => {
@@ -33,11 +33,16 @@ const Index = () => {
 
 
     return (
-        loggedIn ? (<App />) : (
-            <button onClick={login}>
-                Log in here.
-            </button>
-        )
+        <>
+            loggedIn ? (
+            <App />
+            ) : (
+                 <button onClick={login}>
+                     Log in here.
+                 </button>
+            )
+        </>
+
     )
 }
 

@@ -26,11 +26,17 @@ const Players = () => {
     }, [])
 
     return (
-        <Grid container spacing={4}>
+        <Grid
+            container
+            justifyContent="center"
+            alignItems="center"
+            spacing={4}>
             {
                 players.map(({ ref, data}) => {
                     return (
-                        <Grid item key={ref['@ref'].id}>
+                        <Grid
+                            item
+                            key={ref['@ref'].id}>
                             <Card sx={{
                                 maxWidth: 345,
                                 minWidth: 300
