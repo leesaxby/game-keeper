@@ -1,13 +1,13 @@
 import React from 'react';
 import Layout from '../components/layout';
 
-const App = () => {
+const Decks = () => {
 
     return (
         <Layout>
-           <div>App</div>
+            <div>Decks</div>
         </Layout>
     )
 }
 
-export default App;
+export default Decks;
