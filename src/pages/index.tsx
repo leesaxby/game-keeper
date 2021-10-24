@@ -20,30 +20,29 @@ const Index = () => {
             setUser(user)
         })
     }
-    //
-    // useEffect(() => {
-    //     netlifyAuth.initialize((user) => {
-    //         setLoggedIn(!!user)
-    //     })
-    // }, [loggedIn])
-    //
-    // useEffect(() => {
-    //     if (!loggedIn) login();
-    // }, [loggedIn])
+
+    useEffect(() => {
+        netlifyAuth.initialize((user) => {
+            setLoggedIn(!!user)
+        })
+    }, [loggedIn])
+
+    useEffect(() => {
+        if (!loggedIn) login();
+    }, [loggedIn])
 
 
     return (
         <>
-
-        <App />
+            loggedIn ? (
+            <App />
+            ) : (
+                 <button onClick={login}>
+                     Log in here.
+                 </button>
+            )
         </>
-        // loggedIn ? (
-        // <App />
-        // ) : (
-        //     <button onClick={login}>
-        //         Log in here.
-        //     </button>
-        // )
+
     )
 }
 
