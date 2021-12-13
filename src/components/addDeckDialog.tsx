@@ -6,19 +6,31 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import TextField from "@mui/material/TextField";
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 import DialogActions from "@mui/material/DialogActions";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 
 const AddDeckDialog = ({ open, onClose }) => {
-    const [players, setPlayers] = useState([])
+    const [players, setPlayers] = useState([]);
+    const [commanderSearchTerm, setCommanderSearchTerm] = useState('');
+    const [selectedCommander, setSelectedCommander] = useState('')
+    const [commanderList, setCommanderList] = useState([''])
     const [selectedPlayer, setSelectedPlayer] = useState('');
 
+    const onSelectCommander = (e, value) => {
+        setSelectedCommander(value)
+    }
 
     const onSelectPlayer = (e) => {
         setSelectedPlayer(e.target.value)
     }
+
+    const onCommanderSearch = (e, value) => {
+        setCommanderSearchTerm(value)
+    }
+
 
     useEffect(() => {
         fetch('/.netlify/functions/players')
@@ -27,7 +39,18 @@ const AddDeckDialog = ({ open, onClose }) => {
             .catch(err => console.log(err))
     }, [])
 
-    console.log(players)
+    useEffect(() => {
+        if(commanderSearchTerm) {
+            const url = `https://api.scryfall.com/cards/autocomplete?q=${commanderSearchTerm}`
+
+            fetch(encodeURI(url))
+            .then(res => res.json())
+            .then(res => {
+                setCommanderList(res.data)
+            })
+            .catch(err => console.log(err))
+        }
+    }, [commanderSearchTerm])
 
     return (
         <Dialog
@@ -39,7 +62,7 @@ const AddDeckDialog = ({ open, onClose }) => {
                 <Grid container spacing={3} sx={{ marginTop: 1 }}>
                     <Grid item xs={12}>
                         <TextField
-                            autoFocus   
+                            autoFocus
                             id="name"
                             label="Name"
                             fullWidth/>
@@ -67,11 +90,17 @@ const AddDeckDialog = ({ open, onClose }) => {
                         </FormControl>
                     </Grid>
                     <Grid item xs={6}>
-                        <TextField
-                            id="commander"
-                            label="Commander"
-                            type="email"
-                            fullWidth />
+                    <Autocomplete
+                        id="commander"
+                        onChange={onSelectCommander}
+                        inputValue={commanderSearchTerm}
+                        onInputChange={onCommanderSearch}
+                        options={commanderList}
+                        renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                label="Commander" />
+                        )} />
                     </Grid>
                     <Grid item xs={2}>
                         <TextField

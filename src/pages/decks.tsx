@@ -18,7 +18,6 @@ const Decks = () => {
         setAddDeckOpen(true);
     };
 
-    console.log(decks)
     useEffect(() => {
         fetch('/.netlify/functions/decks')
             .then(res => res.json())
