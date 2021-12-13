@@ -12,7 +12,6 @@ import WinRate from "@mui/icons-material/TrendingDown";
 import { CardActions, CardHeader, CardMedia } from "@mui/material";
 
 const DisplayCard = ({ commander, imageURL, name }) => {
-    console.log(imageURL)
     return (
         <Card sx={{ maxWidth: 345 }}>
             <CardHeader

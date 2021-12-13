@@ -13,10 +13,12 @@ import InboxIcon from '@mui/icons-material/Inbox';
 import CasinoIcon from '@mui/icons-material/Casino';
 import { navigate } from "gatsby"
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
+import Grid from "@mui/material/Grid";
+import Button from '@mui/material/Button';
 
 const drawerWidth = 200;
 
-const Layout = ({ children }) => (
+const Layout = ({ main, actions = null }) => (
     <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <AppBar
@@ -65,6 +67,17 @@ const Layout = ({ children }) => (
             component="main"
             sx={{ flexGrow: 1, bgcolor: 'background.default', p: 3 }}>
             <Toolbar />
+            <Grid
+                container
+                justifyContent="flex-end"
+                direction="row"
+                alignItems="center"
+                spacing={4}
+                sx={{ width: '100%' }}>
+                <Grid item>
+                    {actions}
+                </Grid>
+            </Grid>
             <Box
                 component="main"
                 sx={{
@@ -74,7 +87,7 @@ const Layout = ({ children }) => (
                     flexGrow: 1,
                     p: 3
                 }}>
-                {children}
+                {main}
             </Box>
         </Box>
     </Box>
