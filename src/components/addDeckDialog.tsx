@@ -32,16 +32,22 @@ const AddDeckDialog = ({ open, onClose }) => {
     return (
         <Dialog
             fullWidth
+            maxWidth="md"
             open={open}>
             <DialogTitle>Add Deck</DialogTitle>
             <DialogContent>
                 <Grid container spacing={3} sx={{ marginTop: 1 }}>
                     <Grid item xs={12}>
-                        <FormControl sx={{ minWidth: 200 }}>
+                        <TextField
+                            autoFocus   
+                            id="name"
+                            label="Name"
+                            fullWidth/>
+                    </Grid>
+                    <Grid item xs={4}>
+                            <FormControl fullWidth>
                             <InputLabel>Player</InputLabel>
                             <Select
-                                autoFocus
-                                autoWidth
                                 label="player"
                                 value={selectedPlayer}
                                 onChange={onSelectPlayer}>
@@ -60,20 +66,14 @@ const AddDeckDialog = ({ open, onClose }) => {
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={4}>
-                        <TextField
-                            id="name"
-                            label="Name"
-                            fullWidth/>
-                    </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={6}>
                         <TextField
                             id="commander"
                             label="Commander"
                             type="email"
                             fullWidth />
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={2}>
                         <TextField
                             id="level"
                             label="Level"
@@ -84,7 +84,7 @@ const AddDeckDialog = ({ open, onClose }) => {
             </DialogContent>
             <DialogActions>
                 <Button onClick={() => onClose()}>Cancel</Button>
-                <Button onClick={() => {}}>Subscribe</Button>
+                <Button onClick={() => {}}>Submit</Button>
             </DialogActions>
         </Dialog>
     )
