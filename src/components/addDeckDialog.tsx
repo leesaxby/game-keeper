@@ -11,109 +11,136 @@ import Autocomplete from '@mui/material/Autocomplete';
 import DialogActions from "@mui/material/DialogActions";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import placeholderImg from '../images/placeholder.jpeg';
 
 const AddDeckDialog = ({ open, onClose }) => {
-    const [players, setPlayers] = useState([]);
-    const [commanderSearchTerm, setCommanderSearchTerm] = useState('');
-    const [selectedCommander, setSelectedCommander] = useState('')
+    const [playerList, setPlayerList] = useState([]);
     const [commanderList, setCommanderList] = useState([''])
-    const [selectedPlayer, setSelectedPlayer] = useState('');
+    const [commanderSearchTerm, setCommanderSearchTerm] = useState('');
 
-    const onSelectCommander = (e, value) => {
-        setSelectedCommander(value)
-    }
+    const [commander, setCommander] = useState('')
+    const [player, setPlayer] = useState('');
+    const [level, setLevel] = useState(0);
+    const [deckName, setDeckName] = useState('');
+    const [imgUrl, setImgUrl] = useState('');
 
-    const onSelectPlayer = (e) => {
-        setSelectedPlayer(e.target.value)
-    }
-
-    const onCommanderSearch = (e, value) => {
-        setCommanderSearchTerm(value)
-    }
-
-
+    // Get players
     useEffect(() => {
         fetch('/.netlify/functions/players')
             .then(res => res.json())
-            .then(res => setPlayers(res))
+            .then(res => setPlayerList(res))
             .catch(err => console.log(err))
     }, [])
 
+    // Get list of commanders on search
     useEffect(() => {
         if(commanderSearchTerm) {
-            const url = `https://api.scryfall.com/cards/autocomplete?q=${commanderSearchTerm}`
-
-            fetch(encodeURI(url))
-            .then(res => res.json())
-            .then(res => {
-                setCommanderList(res.data)
-            })
-            .catch(err => console.log(err))
+            fetch(encodeURI(`https://api.scryfall.com/cards/autocomplete?q=${commanderSearchTerm}`))
+                .then(res => res.json())
+                .then(res =>  setCommanderList(res.data))
+                .catch(err => console.log(err))
         }
     }, [commanderSearchTerm])
+
+
+    // When commander is selected from the list, fetch card image from api
+    const onSelectCommander = (e, value) => {
+        fetch(encodeURI(`https://api.scryfall.com/cards/named?exact=${value}`))
+            .then(res => res.json())
+            .then(res => setImgUrl(res.image_uris.art_crop))
+            .catch(err => console.log(err))
+
+        setCommander(value);
+    };
+
+    const onSubmit = () => {
+        console.log(commander)
+        console.log(player)
+        console.log(level)
+        console.log(deckName)
+        console.log(imgUrl)
+    }
 
     return (
         <Dialog
             fullWidth
-            maxWidth="md"
+            maxWidth="sm"
             open={open}>
             <DialogTitle>Add Deck</DialogTitle>
-            <DialogContent>
-                <Grid container spacing={3} sx={{ marginTop: 1 }}>
-                    <Grid item xs={12}>
-                        <TextField
-                            autoFocus
-                            id="name"
-                            label="Name"
-                            fullWidth/>
-                    </Grid>
-                    <Grid item xs={4}>
-                            <FormControl fullWidth>
-                            <InputLabel>Player</InputLabel>
-                            <Select
-                                label="player"
-                                value={selectedPlayer}
-                                onChange={onSelectPlayer}>
-                                {
-                                    players.map(player => {
-                                        return (
-                                            <MenuItem
-                                                key={player.ref['@ref'].id}
-                                                value={player}>
-                                                { player.data.name }
-                                            </MenuItem>
+            <DialogContent sx={{ padding: 0 }}>
+                <Card sx={{ width: '100%', borderRadius: 0 }}>
+                    <CardMedia
+                        component="img"
+                        height="240"
+                        src={imgUrl || placeholderImg}
+                        alt="Commander"
+                    />
+                    <CardContent>
+                        <Grid container spacing={3} sx={{ marginTop: 1 }}>
+                            <Grid item xs={6}>
+                                <Autocomplete
+                                    id="commander"
+                                    onChange={onSelectCommander}
+                                    inputValue={commanderSearchTerm}
+                                    onInputChange={(e, value) => setCommanderSearchTerm(value)}
+                                    options={commanderList}
+                                    renderInput={(params) => (
+                                        <TextField
+                                            {...params}
+                                            label="Commander" />
+                                    )} />
+                            </Grid>
+                            <Grid item xs={4}>
+                                <FormControl fullWidth>
+                                    <InputLabel>Player</InputLabel>
+                                    <Select
+                                        label="player"
+                                        value={player}
+                                        onChange={e => setPlayer(e.target.value)}>
+                                        {
+                                            playerList.map(player => {
+                                                return (
+                                                    <MenuItem
+                                                        key={player.ref['@ref'].id}
+                                                        value={player}>
+                                                        { player.data.name }
+                                                    </MenuItem>
 
-                                        )
-                                    })
-                                }
-                            </Select>
-                        </FormControl>
-                    </Grid>
-                    <Grid item xs={6}>
-                    <Autocomplete
-                        id="commander"
-                        onChange={onSelectCommander}
-                        inputValue={commanderSearchTerm}
-                        onInputChange={onCommanderSearch}
-                        options={commanderList}
-                        renderInput={(params) => (
-                            <TextField
-                                {...params}
-                                label="Commander" />
-                        )} />
-                    </Grid>
-                    <Grid item xs={2}>
-                        <TextField
-                            id="level"
-                            label="Level"
-                            type="number"
-                            fullWidth/>
-                    </Grid>
-                </Grid>
+                                                )
+                                            })
+                                        }
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={2}>
+                                <TextField
+                                    fullWidth
+                                    id="level"
+                                    label="Level"
+                                    type="number"
+                                    value={level}
+                                    onChange={e => setLevel(Number(e.target.value))} />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    id="deck-name"
+                                    label="Deck Name"
+                                    value={deckName}
+                                    onChange={e => setDeckName(e.target.value)} />
+                            </Grid>
+                        </Grid>
+                    </CardContent>
+                </Card>
+
+
             </DialogContent>
             <DialogActions>
                 <Button onClick={() => onClose()}>Cancel</Button>
-                <Button onClick={() => {}}>Submit</Button>
+                <Button onClick={onSubmit}>Submit</Button>
             </DialogActions>
         </Dialog>
     )
