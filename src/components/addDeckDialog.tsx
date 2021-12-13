@@ -14,6 +14,8 @@ import Button from "@mui/material/Button";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import placeholderImg from '../images/placeholder.jpeg';
 
 const AddDeckDialog = ({ open, onClose }) => {
@@ -23,7 +25,7 @@ const AddDeckDialog = ({ open, onClose }) => {
 
     const [commander, setCommander] = useState('')
     const [player, setPlayer] = useState('');
-    const [level, setLevel] = useState(0);
+    const [level, setLevel] = useState('');
     const [deckName, setDeckName] = useState('');
     const [imgUrl, setImgUrl] = useState('');
 
@@ -62,6 +64,7 @@ const AddDeckDialog = ({ open, onClose }) => {
         console.log(level)
         console.log(deckName)
         console.log(imgUrl)
+        onClose();
     }
 
     return (
@@ -79,8 +82,10 @@ const AddDeckDialog = ({ open, onClose }) => {
                         alt="Commander"
                     />
                     <CardContent>
-                        <Grid container spacing={3} sx={{ marginTop: 1 }}>
-                            <Grid item xs={6}>
+                        <Grid
+                            container
+                            spacing={3} sx={{ marginTop: 1 }}>
+                            <Grid item xs={8}>
                                 <Autocomplete
                                     id="commander"
                                     onChange={onSelectCommander}
@@ -115,15 +120,6 @@ const AddDeckDialog = ({ open, onClose }) => {
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={2}>
-                                <TextField
-                                    fullWidth
-                                    id="level"
-                                    label="Level"
-                                    type="number"
-                                    value={level}
-                                    onChange={e => setLevel(Number(e.target.value))} />
-                            </Grid>
                             <Grid item xs={12}>
                                 <TextField
                                     fullWidth
@@ -131,6 +127,18 @@ const AddDeckDialog = ({ open, onClose }) => {
                                     label="Deck Name"
                                     value={deckName}
                                     onChange={e => setDeckName(e.target.value)} />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <ToggleButtonGroup
+                                    fullWidth
+                                    exclusive
+                                    value={level}
+                                    size="large"
+                                    onChange={(e, value) => setLevel(value)}>
+                                    {
+                                        [1,2,3,4,5,6,7,9,10].map(x => <ToggleButton key={x} value={x}>{x}</ToggleButton>)
+                                    }
+                                </ToggleButtonGroup>
                             </Grid>
                         </Grid>
                     </CardContent>
