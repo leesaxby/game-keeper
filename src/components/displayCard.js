@@ -11,14 +11,15 @@ import SadIcon from "@mui/icons-material/MoodBad";
 import WinRate from "@mui/icons-material/TrendingDown";
 import { CardActions, CardHeader, CardMedia } from "@mui/material";
 
-const DisplayCard = ({ commander, imageURL, name, player }) => {
+const DisplayCard = ({ commander, imageURL, name, level, player }) => {
+    const levelTitle = ` (${level})`
     return (
         <Card sx={{ maxWidth: 345 }}>
             <CardHeader
                 avatar={
                     <Avatar sx={{ bgcolor: grey[500] }} aria-label="Display Card" />
                 }
-                title={name}
+                title={`${name}${level ? levelTitle : ''}`}
                 subheader={player}
             />
             <CardMedia

@@ -26,8 +26,8 @@ const AddDeckDialog = ({ open, onClose }) => {
     const [commander, setCommander] = useState('')
     const [player, setPlayer] = useState('');
     const [level, setLevel] = useState('');
-    const [deckName, setDeckName] = useState('');
-    const [imgUrl, setImgUrl] = useState('');
+    const [name, setName] = useState('');
+    const [imageURL, setImageURL] = useState('');
 
     // Get players
     useEffect(() => {
@@ -52,7 +52,7 @@ const AddDeckDialog = ({ open, onClose }) => {
     const onSelectCommander = (e, value) => {
         fetch(encodeURI(`https://api.scryfall.com/cards/named?exact=${value}`))
             .then(res => res.json())
-            .then(res => setImgUrl(res.image_uris.art_crop))
+            .then(res => setImageURL(res.image_uris.art_crop))
             .catch(err => console.log(err))
 
         setCommander(value);
@@ -62,10 +62,10 @@ const AddDeckDialog = ({ open, onClose }) => {
         fetch('/.netlify/functions/decks-create', {
             body: JSON.stringify({
                 commander,
-                player: player.ref['@ref'].id,
+                player: player.id,
                 level,
-                name: deckName,
-                imageURL: imgUrl,
+                name,
+                imageURL,
             }),
             method: 'POST'
         })
@@ -87,7 +87,7 @@ const AddDeckDialog = ({ open, onClose }) => {
                     <CardMedia
                         component="img"
                         height="240"
-                        src={imgUrl || placeholderImg}
+                        src={imageURL || placeholderImg}
                         alt="Commander"
                     />
                     <CardContent>
@@ -118,9 +118,9 @@ const AddDeckDialog = ({ open, onClose }) => {
                                             playerList.map(player => {
                                                 return (
                                                     <MenuItem
-                                                        key={player.ref['@ref'].id}
+                                                        key={player.id}
                                                         value={player}>
-                                                        { player.data.name }
+                                                        { player.name }
                                                     </MenuItem>
 
                                                 )
@@ -134,8 +134,8 @@ const AddDeckDialog = ({ open, onClose }) => {
                                     fullWidth
                                     id="deck-name"
                                     label="Deck Name"
-                                    value={deckName}
-                                    onChange={e => setDeckName(e.target.value)} />
+                                    value={name}
+                                    onChange={e => setName(e.target.value)} />
                             </Grid>
                             <Grid item xs={12}>
                                 <ToggleButtonGroup
