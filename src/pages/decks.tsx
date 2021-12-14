@@ -12,18 +12,24 @@ const Decks = () => {
 
     const onAddDeckClose = () => {
         setAddDeckOpen(false);
+        getDecks();
     };
 
     const onAddDeckOpen = () => {
         setAddDeckOpen(true);
     };
 
-    useEffect(() => {
+    const getDecks = () => {
         fetch('/.netlify/functions/decks')
-            .then(res => res.json())
-            .then(res => setDecks(res))
-            .catch(err => console.log(err))
+        .then(res => res.json())
+        .then(res => setDecks(res))
+        .catch(err => console.log(err))
 
+    }
+
+    useEffect(() => {
+        // Not listed in dependencies
+        getDecks()
     }, [])
 
     return (

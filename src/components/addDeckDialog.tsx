@@ -47,6 +47,15 @@ const AddDeckDialog = ({ open, onClose }) => {
         }
     }, [commanderSearchTerm])
 
+    const closeDialog = () => {
+        // TODO: Improve this as state updates won't be batched due to being called  from async
+        setCommander('');
+        setPlayer('');
+        setLevel('');
+        setName('');
+        setImageURL('');
+        onClose();
+    }
 
     // When commander is selected from the list, fetch card image from api
     const onSelectCommander = (e, value) => {
@@ -70,10 +79,8 @@ const AddDeckDialog = ({ open, onClose }) => {
             method: 'POST'
         })
         .then(res => res.json())
-        .then(res => console.log(res))
-        .catch(err => console.log(err))
-        
-        onClose();
+        .then(res => closeDialog())
+        .catch(err => console.log(err))        
     }
 
     return (
