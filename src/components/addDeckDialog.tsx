@@ -59,11 +59,20 @@ const AddDeckDialog = ({ open, onClose }) => {
     };
 
     const onSubmit = () => {
-        console.log(commander)
-        console.log(player)
-        console.log(level)
-        console.log(deckName)
-        console.log(imgUrl)
+        fetch('/.netlify/functions/decks-create', {
+            body: JSON.stringify({
+                commander,
+                player: player.ref['@ref'].id,
+                level,
+                name: deckName,
+                imageURL: imgUrl,
+            }),
+            method: 'POST'
+        })
+        .then(res => res.json())
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
+        
         onClose();
     }
 
@@ -136,7 +145,8 @@ const AddDeckDialog = ({ open, onClose }) => {
                                     size="large"
                                     onChange={(e, value) => setLevel(value)}>
                                     {
-                                        [1,2,3,4,5,6,7,9,10].map(x => <ToggleButton key={x} value={x}>{x}</ToggleButton>)
+                                        ['1','2','3','4','5','6','7','9','10']
+                                            .map(x => <ToggleButton key={x} value={x}>{x}</ToggleButton>)
                                     }
                                 </ToggleButtonGroup>
                             </Grid>
