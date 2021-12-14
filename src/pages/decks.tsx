@@ -41,15 +41,16 @@ const Decks = () => {
                         alignItems="center"
                         spacing={4}>
                         {
-                            decks.map(({ ref, data: { name, commander, imageURL }}) => {
+                            decks.map(({ id, name, player, commander, imageURL }) => {
                                 return (
                                     <Grid
                                         item
-                                        key={ref['@ref'].id}>
+                                        key={id}>
                                         <DisplayCard
                                             name={name}
                                             commander={commander}
-                                            imageURL={imageURL} />
+                                            player={player.data.name}
+                                            imageURL={imageURL}/>
                                     </Grid>
                                 )
                             })
