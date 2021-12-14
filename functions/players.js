@@ -14,9 +14,20 @@ exports.handler = async (event, context) => {
         const req = await client.query(
             q.Map(
                 q.Paginate(q.Match(q.Index("all_players"))),
-                q.Lambda("playerRef", q.Get(q.Var("playerRef")))
+                q.Lambda("playerRef",
+                    q.Let({
+                        playerDoc: q.Get(q.Var("playerRef")),
+                    },
+                    {
+                        id: q.Select(["ref", "id"], q.Var("playerDoc")),
+                        name: q.Select(["data", "name"], q.Var("playerDoc")),
+                        imageURL: q.Select(["data", "imageURL"], q.Var("playerDoc")),
+                    }
+                  )
+                )
             )
         )
+
         return { statusCode: 200, body: JSON.stringify(req.data) }
     } catch (err) {
         return { statusCode: 500, body: JSON.stringify({ error: err.message}) }

@@ -23,14 +23,13 @@ const Players = () => {
                     alignItems="center"
                     spacing={4}>
                     {
-                        players.map(({ ref, data: { name, commander, imageURL }}) => {
+                        players.map(({ id, name, imageURL }) => {
                             return (
                                 <Grid
                                     item
-                                    key={ref['@ref'].id}>
+                                    key={id}>
                                     <DisplayCard
                                         name={name}
-                                        commander={commander}
                                         imageURL={imageURL} />
                                 </Grid>
                             )

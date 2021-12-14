@@ -12,18 +12,24 @@ const Decks = () => {
 
     const onAddDeckClose = () => {
         setAddDeckOpen(false);
+        getDecks();
     };
 
     const onAddDeckOpen = () => {
         setAddDeckOpen(true);
     };
 
-    useEffect(() => {
+    const getDecks = () => {
         fetch('/.netlify/functions/decks')
-            .then(res => res.json())
-            .then(res => setDecks(res))
-            .catch(err => console.log(err))
+        .then(res => res.json())
+        .then(res => setDecks(res))
+        .catch(err => console.log(err))
 
+    }
+
+    useEffect(() => {
+        // Not listed in dependencies
+        getDecks()
     }, [])
 
     return (
@@ -41,15 +47,17 @@ const Decks = () => {
                         alignItems="center"
                         spacing={4}>
                         {
-                            decks.map(({ ref, data: { name, commander, imageURL }}) => {
+                            decks.map(({ id, name, player, commander, level, imageURL }) => {
                                 return (
                                     <Grid
                                         item
-                                        key={ref['@ref'].id}>
+                                        key={id}>
                                         <DisplayCard
                                             name={name}
                                             commander={commander}
-                                            imageURL={imageURL} />
+                                            level={level}
+                                            player={player.data.name}
+                                            imageURL={imageURL}/>
                                     </Grid>
                                 )
                             })
