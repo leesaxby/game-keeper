@@ -4,30 +4,41 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
-import {blue, green, red, grey} from "@mui/material/colors";
+import {blue, green, red} from "@mui/material/colors";
 import SmileIcon from "@mui/icons-material/Mood";
 import ListItemText from "@mui/material/ListItemText";
 import SadIcon from "@mui/icons-material/MoodBad";
 import WinRate from "@mui/icons-material/TrendingDown";
-import { CardActions, CardHeader, CardMedia } from "@mui/material";
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Typography from '@mui/material/Typography';
 
 const DisplayCard = ({ commander, imageURL, name, level, player }) => {
     const levelTitle = ` (${level})`
     return (
-        <Card sx={{ maxWidth: 345 }}>
-            <CardHeader
-                avatar={
-                    <Avatar sx={{ bgcolor: grey[500] }} aria-label="Display Card" />
-                }
-                title={`${name}${level ? levelTitle : ''}`}
-                subheader={player}
-            />
+        <Card raised sx={{ maxWidth: 345 }}>
             <CardMedia
                 component="img"
                 height="194"
                 image={imageURL}
-                alt="Paella dish"
+                alt="Commander"
             />
+            <CardContent>
+                <Typography component="div" variant="h6">
+                    {name}
+                </Typography>
+                {
+                    commander && (
+                        <Typography variant="subtitle2" color="text.secondary" component="div">
+                            {`${commander}${level ? levelTitle : ''}`}
+                        </Typography>
+                    )
+                }
+                <Typography variant="subtitle2" color="text.secondary" component="div">
+                    {player}
+                </Typography>
+            </CardContent>
             <CardActions disableSpacing>
                 <List
                     dense
@@ -35,7 +46,6 @@ const DisplayCard = ({ commander, imageURL, name, level, player }) => {
                         display: 'flex',
                         flexDirection: 'row',
                         padding: 0,
-                        marginTop: 1,
                         marginBottom: 1,
                     }}>
                     <ListItem >
