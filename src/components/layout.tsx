@@ -29,7 +29,7 @@ const theme = createTheme({
       }
 });
 
-const Layout = ({ children = {}, actions = null, title = '' }) => (
+const Layout = ({ children, actions = null, title = '' }) => (
     <ThemeProvider theme={theme}>
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
@@ -70,6 +70,9 @@ const Layout = ({ children = {}, actions = null, title = '' }) => (
                         Game Keeper
                     </Typography>
                 </Toolbar>
+                <Divider
+                    sx={{ background: '#577a9d' }}
+                    variant="middle" />
                 <List>
                     <ListItem button onClick={() => navigate('/players')}>
                         <ListItemIcon>
@@ -109,9 +112,6 @@ const Layout = ({ children = {}, actions = null, title = '' }) => (
                         {actions}
                     </Grid>
                 </Grid>
-                <Divider
-                    sx={{ marginTop: 2 }}
-                    variant="middle" />
                 <Box
                     component="main"
                     sx={{
