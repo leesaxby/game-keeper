@@ -14,16 +14,21 @@ const Games = () => {
     const [games, setGames] = useState([]);
     const [addGameOpen, setAddGameOpen] = useState(false);
 
-    useEffect(() => {
+    const getGames = () => {
         fetch('/.netlify/functions/games')
             .then(res => res.json())
             .then(res => setGames(res))
             .catch(err => console.log(err))
+    }
+
+    useEffect(() => {
+        // Not listed in dependencies
+        getGames()
     }, [])
 
     const onAddGameClose = () => {
         setAddGameOpen(false);
-        // getGames();
+        getGames();
     };
 
     return (

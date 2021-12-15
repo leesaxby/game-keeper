@@ -29,26 +29,30 @@ const AddGameDialog = ({ open, onClose }) => {
             .catch(err => console.log(err))
     }, [])
 
-    const onSubmit = () => {
+    const closeDialog = () => {
+        // TODO: Improve this as state updates won't be batched due to being called from async
+        setWinner(null);
+        setLosers([]);
+        setWinMethod('');
+        setFirst(false);
+        setTurnOneSolRing(false);
+        onClose()
+    }
 
-        console.log(winner)
-        console.log(losers)
-        console.log(winMethod)
-        console.log(first)
-        console.log(turnOneSolRing)
-        // fetch('/.netlify/functions/decks-create', {
-        //     body: JSON.stringify({
-        //         commander,
-        //         player: player.id,
-        //         level,
-        //         name,
-        //         imageURL,
-        //     }),
-        //     method: 'POST'
-        // })
-        // .then(res => res.json())
-        // .then(res => closeDialog())
-        // .catch(err => console.log(err))
+    const onSubmit = () => {
+        fetch('/.netlify/functions/games-create', {
+            body: JSON.stringify({
+                winner: winner.id,
+                losers: losers.map(loser => loser.id),
+                winMethod,
+                first,
+                turnOneSolRing,
+            }),
+            method: 'POST'
+        })
+        .then(res => res.json())
+        .then(() => closeDialog())
+        .catch(err => console.log(err))
     }
 
     return (

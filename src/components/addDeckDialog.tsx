@@ -79,8 +79,8 @@ const AddDeckDialog = ({ open, onClose }) => {
             method: 'POST'
         })
         .then(res => res.json())
-        .then(res => closeDialog())
-        .catch(err => console.log(err))        
+        .then(() => closeDialog())
+        .catch(err => console.log(err))
     }
 
     return (
