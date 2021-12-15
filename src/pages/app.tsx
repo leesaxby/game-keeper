@@ -1,13 +1,8 @@
 import React from 'react';
 import Layout from '../components/layout';
 
-const App = () => {
-
-    return (
-        <Layout>
-           <div>App</div>
-        </Layout>
-    )
-}
+const App = () => (
+    <Layout main={<div>GAME KEEPER</div>} />
+);
 
 export default App;
