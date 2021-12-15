@@ -14,7 +14,6 @@ import CasinoIcon from '@mui/icons-material/Casino';
 import { navigate } from "gatsby"
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import Grid from "@mui/material/Grid";
-import Button from '@mui/material/Button';
 
 const drawerWidth = 200;
 
@@ -55,11 +54,11 @@ const Layout = ({ main, actions = null }) => (
                     </ListItemIcon>
                     <ListItemText primary="Decks" />
                 </ListItem>
-                <ListItem button onClick={() => navigate('/results')}>
+                <ListItem button onClick={() => navigate('/games')}>
                     <ListItemIcon>
                         <CasinoIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Results" />
+                    <ListItemText primary="Games" />
                 </ListItem>
             </List>
         </Drawer>

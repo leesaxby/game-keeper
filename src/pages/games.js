@@ -7,9 +7,12 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Layout from '../components/layout';
+import Button from "@mui/material/Button";
+import AddGameDialog from '../components/addGameDialog'
 
-const Results = () => {
+const Games = () => {
     const [games, setGames] = useState([]);
+    const [addGameOpen, setAddGameOpen] = useState(false);
 
     useEffect(() => {
         fetch('/.netlify/functions/games')
@@ -18,9 +21,19 @@ const Results = () => {
             .catch(err => console.log(err))
     }, [])
 
+    const onAddGameClose = () => {
+        setAddGameOpen(false);
+        // getGames();
+    };
+
     return (
         <>
             <Layout
+                actions={(
+                    <Button
+                        variant="outlined"
+                        onClick={() => setAddGameOpen(true)}>ADD GAME</Button>
+                )}
                 main={(
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -47,8 +60,11 @@ const Results = () => {
                         </Table>
                     </TableContainer>
                 )} />
+            <AddGameDialog
+                open={addGameOpen}
+                onClose={onAddGameClose} />
         </>
     )
 }
 
-export default Results;
+export default Games;
