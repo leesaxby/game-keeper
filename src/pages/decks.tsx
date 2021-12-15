@@ -5,7 +5,6 @@ import Button from '@mui/material/Button';
 import DisplayCard from '../components/displayCard';
 import AddDeckDialog from '../components/addDeckDialog';
 
-
 const Decks = () => {
     const [decks, setDecks] = useState([]);
     const [addDeckOpen, setAddDeckOpen] = useState(false);
