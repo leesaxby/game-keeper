@@ -2,7 +2,9 @@ import React from 'react';
 import Layout from '../components/layout';
 
 const App = () => (
-    <Layout main={<div>GAME KEEPER</div>} />
+    <Layout>
+        <div>GAME KEEPER</div>
+    </Layout>
 );
 
 export default App;

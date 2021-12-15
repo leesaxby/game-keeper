@@ -34,12 +34,12 @@ const Decks = () => {
     return (
         <>
             <Layout
+                title="Decks"
                 actions={(
                     <Button
                         variant="outlined"
                         onClick={onAddDeckOpen}>ADD DECK</Button>
-                )}
-                main={(
+                )}>
                     <Grid
                         container
                         justifyContent="center"
@@ -62,7 +62,7 @@ const Decks = () => {
                             })
                         }
                     </Grid>
-                )} />
+                </Layout>
                 <AddDeckDialog
                     open={addDeckOpen}
                     onClose={onAddDeckClose} />

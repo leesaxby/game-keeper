@@ -29,7 +29,7 @@ const theme = createTheme({
       }
 });
 
-const Layout = ({ main, actions = null }) => (
+const Layout = ({ children = {}, actions = null, title = '' }) => (
     <ThemeProvider theme={theme}>
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
@@ -48,7 +48,7 @@ const Layout = ({ main, actions = null }) => (
                         variant="h6"
                         component="div"
                         sx={{ color: '#34495e'}}>
-                        Title
+                        {title}
                     </Typography>
                 </Toolbar>
             </AppBar>
@@ -122,7 +122,7 @@ const Layout = ({ main, actions = null }) => (
                         flexGrow: 1,
                         p: 3
                     }}>
-                    {main}
+                    {children}
                 </Box>
             </Box>
         </Box>

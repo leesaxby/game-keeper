@@ -34,12 +34,12 @@ const Games = () => {
     return (
         <>
             <Layout
+                title="Games"
                 actions={(
                     <Button
                         variant="outlined"
                         onClick={() => setAddGameOpen(true)}>ADD GAME</Button>
-                )}
-                main={(
+                )}>
                     <TableContainer component={Paper}>
                         <Table sx={{ minWidth: 650 }} aria-label="simple table">
                             <TableHead>
@@ -64,7 +64,7 @@ const Games = () => {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                )} />
+                </Layout>
             <AddGameDialog
                 open={addGameOpen}
                 onClose={onAddGameClose} />
