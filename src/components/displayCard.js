@@ -17,7 +17,7 @@ import Typography from '@mui/material/Typography';
 const DisplayCard = ({ commander, imageURL, name, level, player }) => {
     const levelTitle = ` (${level})`
     return (
-        <Card raised sx={{ maxWidth: 345 }}>
+        <Card sx={{ maxWidth: 345 }}>
             <CardMedia
                 component="img"
                 height="194"

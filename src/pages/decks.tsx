@@ -5,7 +5,6 @@ import Button from '@mui/material/Button';
 import DisplayCard from '../components/displayCard';
 import AddDeckDialog from '../components/addDeckDialog';
 
-
 const Decks = () => {
     const [decks, setDecks] = useState([]);
     const [addDeckOpen, setAddDeckOpen] = useState(false);
@@ -35,12 +34,12 @@ const Decks = () => {
     return (
         <>
             <Layout
+                title="Decks"
                 actions={(
                     <Button
                         variant="outlined"
                         onClick={onAddDeckOpen}>ADD DECK</Button>
-                )}
-                main={(
+                )}>
                     <Grid
                         container
                         justifyContent="center"
@@ -63,7 +62,7 @@ const Decks = () => {
                             })
                         }
                     </Grid>
-                )} />
+                </Layout>
                 <AddDeckDialog
                     open={addDeckOpen}
                     onClose={onAddDeckClose} />

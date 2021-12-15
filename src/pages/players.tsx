@@ -15,9 +15,8 @@ const Players = () => {
     }, [])
 
     return (
-        <Layout
-            main={(
-                <Grid
+        <Layout title="Players">
+             <Grid
                     container
                     justifyContent="center"
                     alignItems="center"
@@ -36,7 +35,7 @@ const Players = () => {
                         })
                     }
                 </Grid>
-            )} />
+        </Layout>
     )
 }
 
