@@ -4,11 +4,13 @@
 </h1>
 
 <p>
-  App to record magic the gathering players, decks and game results
+  App to record magic the gathering players, decks and game results.</p>
+<p>
+  The app makes use of the <a href="https://scryfall.com/docs/api">Scryfall API</a> for card info and images.
 </p>
 
 <h3>
-  Tech
+  Stack
 </h3>
 <ul>
   <li>FaunaDB</li>
@@ -18,4 +20,12 @@
   <li>Material UI</li>
 </ul>
 
+<h3>
+  Screenshots
+</h3>
+
+![](players.png)
+![](decks.png)
 ![](add-deck.gif)
+![](games.png)
+
