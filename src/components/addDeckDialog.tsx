@@ -17,6 +17,7 @@ import CardMedia from '@mui/material/CardMedia';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import placeholderImg from '../images/placeholder.jpeg';
+import Notification from './notification';
 
 const AddDeckDialog = ({ open, onClose }) => {
     const [playerList, setPlayerList] = useState([]);
@@ -28,6 +29,12 @@ const AddDeckDialog = ({ open, onClose }) => {
     const [level, setLevel] = useState('');
     const [name, setName] = useState('');
     const [imageURL, setImageURL] = useState('');
+
+    const [notifyOpts, setNotifyOpts] = useState({
+        open: false,
+        message: '',
+        severity: 'success',
+    })
 
     // Get players
     useEffect(() => {
@@ -46,6 +53,18 @@ const AddDeckDialog = ({ open, onClose }) => {
                 .catch(err => console.log(err))
         }
     }, [commanderSearchTerm])
+
+    const validateInputs = () => {
+        switch(false) {
+            case !!commander:
+            case !!player?.id:
+            case !!level:
+            case !!name:;
+                return false;
+            default:
+                return true;
+        };        
+    }
 
     const closeDialog = () => {
         // TODO: Improve this as state updates won't be batched due to being called  from async
@@ -68,106 +87,124 @@ const AddDeckDialog = ({ open, onClose }) => {
     };
 
     const onSubmit = () => {
-        fetch('/.netlify/functions/decks-create', {
-            body: JSON.stringify({
-                commander,
-                player: player.id,
-                level,
-                name,
-                imageURL,
-            }),
-            method: 'POST'
-        })
-        .then(res => res.json())
-        .then(() => closeDialog())
-        .catch(err => console.log(err))
+        if (validateInputs()) {
+            fetch('/.netlify/functions/decks-create', {
+                body: JSON.stringify({
+                    commander,
+                    player: player.id,
+                    level,
+                    name,
+                    imageURL,
+                }),
+                method: 'POST'
+            })
+            .then(res => res.json())
+            .then(res => {
+                closeDialog()
+                setNotifyOpts({
+                    open: true,
+                    message: 'Deck successfuly created!',
+                    severity: 'success',
+                })
+            })
+            .catch(err => console.log(err))  
+        } else {
+            setNotifyOpts({
+                open: true,
+                message: 'Please complete all form fields!',
+                severity: 'error',
+            })
+        }      
     }
 
     return (
-        <Dialog
-            fullWidth
-            maxWidth="sm"
-            open={open}>
-            <DialogTitle>Add Deck</DialogTitle>
-            <DialogContent sx={{ padding: 0 }}>
-                <Card sx={{ width: '100%', borderRadius: 0 }}>
-                    <CardMedia
-                        component="img"
-                        height="240"
-                        src={imageURL || placeholderImg}
-                        alt="Commander"
-                    />
-                    <CardContent>
-                        <Grid
-                            container
-                            spacing={3} sx={{ marginTop: 1 }}>
-                            <Grid item xs={8}>
-                                <Autocomplete
-                                    id="commander"
-                                    onChange={onSelectCommander}
-                                    inputValue={commanderSearchTerm}
-                                    onInputChange={(e, value) => setCommanderSearchTerm(value)}
-                                    options={commanderList}
-                                    renderInput={(params) => (
-                                        <TextField
-                                            {...params}
-                                            label="Commander" />
-                                    )} />
-                            </Grid>
-                            <Grid item xs={4}>
-                                <FormControl fullWidth>
-                                    <InputLabel>Player</InputLabel>
-                                    <Select
-                                        label="player"
-                                        value={player}
-                                        onChange={e => setPlayer(e.target.value)}>
+        <>
+            <Dialog
+                fullWidth
+                maxWidth="sm"
+                open={open}>
+                <DialogTitle>Add Deck</DialogTitle>
+                <DialogContent sx={{ padding: 0 }}>
+                    <Card sx={{ width: '100%', borderRadius: 0 }}>
+                        <CardMedia
+                            component="img"
+                            height="240"
+                            src={imageURL || placeholderImg}
+                            alt="Commander"
+                        />
+                        <CardContent>
+                            <Grid
+                                container
+                                spacing={3} sx={{ marginTop: 1 }}>
+                                <Grid item xs={8}>
+                                    <Autocomplete
+                                        id="commander"
+                                        onChange={onSelectCommander}
+                                        inputValue={commanderSearchTerm}
+                                        onInputChange={(e, value) => setCommanderSearchTerm(value)}
+                                        options={commanderList}
+                                        renderInput={(params) => (
+                                            <TextField
+                                                {...params}
+                                                label="Commander" />
+                                        )} />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <FormControl fullWidth>
+                                        <InputLabel>Player</InputLabel>
+                                        <Select
+                                            label="player"
+                                            value={player}
+                                            onChange={e => setPlayer(e.target.value)}>
+                                            {
+                                                playerList.map(player => {
+                                                    return (
+                                                        <MenuItem
+                                                            key={player.id}
+                                                            value={player}>
+                                                            { player.name }
+                                                        </MenuItem>
+
+                                                    )
+                                                })
+                                            }
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <TextField
+                                        fullWidth
+                                        id="deck-name"
+                                        label="Deck Name"
+                                        value={name}
+                                        onChange={e => setName(e.target.value)} />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <ToggleButtonGroup
+                                        fullWidth
+                                        exclusive
+                                        value={level}
+                                        size="large"
+                                        onChange={(e, value) => setLevel(value)}>
                                         {
-                                            playerList.map(player => {
-                                                return (
-                                                    <MenuItem
-                                                        key={player.id}
-                                                        value={player}>
-                                                        { player.name }
-                                                    </MenuItem>
-
-                                                )
-                                            })
+                                            ['1','2','3','4','5','6','7','9','10']
+                                                .map(x => <ToggleButton key={x} value={x}>{x}</ToggleButton>)
                                         }
-                                    </Select>
-                                </FormControl>
+                                    </ToggleButtonGroup>
+                                </Grid>
                             </Grid>
-                            <Grid item xs={12}>
-                                <TextField
-                                    fullWidth
-                                    id="deck-name"
-                                    label="Deck Name"
-                                    value={name}
-                                    onChange={e => setName(e.target.value)} />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <ToggleButtonGroup
-                                    fullWidth
-                                    exclusive
-                                    value={level}
-                                    size="large"
-                                    onChange={(e, value) => setLevel(value)}>
-                                    {
-                                        ['1','2','3','4','5','6','7','9','10']
-                                            .map(x => <ToggleButton key={x} value={x}>{x}</ToggleButton>)
-                                    }
-                                </ToggleButtonGroup>
-                            </Grid>
-                        </Grid>
-                    </CardContent>
-                </Card>
+                        </CardContent>
+                    </Card>
 
 
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={() => onClose()}>Cancel</Button>
-                <Button onClick={onSubmit}>Submit</Button>
-            </DialogActions>
-        </Dialog>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => onClose()}>Cancel</Button>
+                    <Button onClick={onSubmit}>Submit</Button>
+                </DialogActions>
+            </Dialog>
+            <Notification { ...notifyOpts } onClose={() => setNotifyOpts({ ...notifyOpts, open: false })} />
+        </>
     )
 }
 
