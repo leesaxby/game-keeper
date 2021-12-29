@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import * as React from 'react'
+import { useEffect, useState } from 'react';
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -16,8 +17,9 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import placeholderImg from '../images/placeholder.jpeg';
 import Notification from './notification';
+// @ts-ignore
+import placeholderImg from '../images/placeholder.jpeg';
 
 const AddDeckDialog = ({ open, onClose }) => {
     const [playerList, setPlayerList] = useState([]);
@@ -59,11 +61,11 @@ const AddDeckDialog = ({ open, onClose }) => {
             case !!commander:
             case !!player?.id:
             case !!level:
-            case !!name:;
+            case !!name:
                 return false;
             default:
                 return true;
-        };        
+        };
     }
 
     const closeDialog = () => {
@@ -107,14 +109,14 @@ const AddDeckDialog = ({ open, onClose }) => {
                     severity: 'success',
                 })
             })
-            .catch(err => console.log(err))  
+            .catch(err => console.log(err))
         } else {
             setNotifyOpts({
                 open: true,
                 message: 'Please complete all form fields!',
                 severity: 'error',
             })
-        }      
+        }
     }
 
     return (

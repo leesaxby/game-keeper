@@ -1,4 +1,5 @@
-import React, { useEffect, useState} from "react"
+import * as React from 'react'
+import { useState} from "react"
 import netlifyAuth from '../netlifyAuth.js'
 import App from './app';
 
@@ -21,27 +22,21 @@ const Index = () => {
         })
     }
 
-    useEffect(() => {
-        netlifyAuth.initialize((user) => {
-            setLoggedIn(!!user)
-        })
-    }, [loggedIn])
-
-    useEffect(() => {
-        if (!loggedIn) login();
-    }, [loggedIn])
+    // useEffect(() => {
+    //     netlifyAuth.initialize((user) => {
+    //         setLoggedIn(!!user)
+    //     })
+    // }, [loggedIn])
+    //
+    // useEffect(() => {
+    //     if (!loggedIn) login();
+    // }, [loggedIn])
 
 
     return (
-        <>
-            loggedIn ? (
+
                 <App />
-            ) : (
-                 <button onClick={login}>
-                     Log in here.
-                 </button>
-            )
-        </>
+
 
     )
 }

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react'
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import AppBar from '@mui/material/AppBar';
@@ -126,7 +126,7 @@ const Layout = ({ children, actions = null, title = '' }) => (
                 </Box>
             </Box>
         </Box>
-    </ThemeProvider>    
+    </ThemeProvider>
 
 );
 

@@ -1,4 +1,5 @@
-import React, {useEffect, useState} from 'react';
+import * as React from 'react'
+import { useEffect, useState } from 'react';
 import Layout from '../components/layout';
 import Grid from "@mui/material/Grid";
 import Button from '@mui/material/Button';

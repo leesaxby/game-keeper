@@ -1,4 +1,5 @@
-import React, {useEffect, useState} from 'react';
+import * as React from 'react'
+import { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Layout from '../components/layout';
 import DisplayCard from '../components/displayCard';
