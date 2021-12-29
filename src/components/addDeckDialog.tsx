@@ -18,11 +18,16 @@ import CardMedia from '@mui/material/CardMedia';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import Notification from './notification';
-// @ts-ignore
 import placeholderImg from '../images/placeholder.jpeg';
+import { Player } from '../typings/typeShared';
 
-const AddDeckDialog = ({ open, onClose }) => {
-    const [playerList, setPlayerList] = useState([]);
+type Props = {
+    open: boolean,
+    onClose: () => void,
+}
+
+const AddDeckDialog = ({ open, onClose }: Props) => {
+    const [playerList, setPlayerList] = useState<Player[]>([]);
     const [commanderList, setCommanderList] = useState([''])
     const [commanderSearchTerm, setCommanderSearchTerm] = useState('');
 
@@ -59,13 +64,13 @@ const AddDeckDialog = ({ open, onClose }) => {
     const validateInputs = () => {
         switch(false) {
             case !!commander:
-            case !!player?.id:
+            case !!player:
             case !!level:
             case !!name:
                 return false;
             default:
                 return true;
-        };
+        }
     }
 
     const closeDialog = () => {
@@ -79,7 +84,8 @@ const AddDeckDialog = ({ open, onClose }) => {
     }
 
     // When commander is selected from the list, fetch card image from api
-    const onSelectCommander = (e, value) => {
+    const onSelectCommander = (e: React.SyntheticEvent, value: string | null) => {
+        if (!value) return;
         fetch(encodeURI(`https://api.scryfall.com/cards/named?exact=${value}`))
             .then(res => res.json())
             .then(res => setImageURL(res.image_uris.art_crop))
@@ -93,7 +99,7 @@ const AddDeckDialog = ({ open, onClose }) => {
             fetch('/.netlify/functions/decks-create', {
                 body: JSON.stringify({
                     commander,
-                    player: player.id,
+                    player: player,
                     level,
                     name,
                     imageURL,
@@ -101,11 +107,11 @@ const AddDeckDialog = ({ open, onClose }) => {
                 method: 'POST'
             })
             .then(res => res.json())
-            .then(res => {
+            .then(() => {
                 closeDialog()
                 setNotifyOpts({
                     open: true,
-                    message: 'Deck successfuly created!',
+                    message: 'Deck Successfully Created!',
                     severity: 'success',
                 })
             })
@@ -141,7 +147,10 @@ const AddDeckDialog = ({ open, onClose }) => {
                                 <Grid item xs={8}>
                                     <Autocomplete
                                         id="commander"
-                                        onChange={onSelectCommander}
+                                        onChange={(e, value) => {
+                                            console.log(value)
+                                            onSelectCommander(e, value)
+                                        }}
                                         inputValue={commanderSearchTerm}
                                         onInputChange={(e, value) => setCommanderSearchTerm(value)}
                                         options={commanderList}
@@ -163,7 +172,7 @@ const AddDeckDialog = ({ open, onClose }) => {
                                                     return (
                                                         <MenuItem
                                                             key={player.id}
-                                                            value={player}>
+                                                            value={player.id}>
                                                             { player.name }
                                                         </MenuItem>
 
@@ -197,8 +206,6 @@ const AddDeckDialog = ({ open, onClose }) => {
                             </Grid>
                         </CardContent>
                     </Card>
-
-
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => onClose()}>Cancel</Button>
