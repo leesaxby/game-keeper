@@ -10,7 +10,7 @@ type Props = {
     onClose: () => void,
 }
 
-const Notification = ({ open, message, severity, onClose }: Props) => (
+const Notification = ({ open, message, severity = 'info', onClose }: Props) => (
     <Snackbar open={open} autoHideDuration={5000} onClose={onClose}>
         <Alert severity={severity} sx={{ width: '100%' }}>
             {message}

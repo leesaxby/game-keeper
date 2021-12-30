@@ -30,8 +30,8 @@ const theme = createTheme({
 
 type Props = {
     children: React.ReactNode,
-    actions: React.ReactNode,
-    title: string,
+    actions?: React.ReactNode,
+    title?: string,
 }
 
 const Layout = ({ children, actions = null, title = '' }: Props) => (

@@ -15,11 +15,11 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 
 type Props = {
-    commander: string,
     imageURL: string,
     name: string,
-    level: string,
-    player: string,
+    commander?: string,
+    level?: number,
+    player?: string,
 }
 
 const DisplayCard = ({ commander, imageURL, name, level, player }: Props) => {

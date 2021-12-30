@@ -17,6 +17,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import type { AlertColor } from '@mui/material/Alert';
 import Notification from './notification';
 import placeholderImg from '../images/placeholder.jpeg';
 import { Player } from '../typings/typeShared';
@@ -37,7 +38,11 @@ const AddDeckDialog = ({ open, onClose }: Props) => {
     const [name, setName] = useState('');
     const [imageURL, setImageURL] = useState('');
 
-    const [notifyOpts, setNotifyOpts] = useState({
+    const [notifyOpts, setNotifyOpts] = useState<{
+        open: boolean,
+        message: string,
+        severity: AlertColor,
+    }>({
         open: false,
         message: '',
         severity: 'success',

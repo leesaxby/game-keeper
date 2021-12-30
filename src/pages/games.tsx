@@ -10,9 +10,10 @@ import Paper from '@mui/material/Paper';
 import Layout from '../components/layout';
 import Button from "@mui/material/Button";
 import AddGameDialog from '../components/addGameDialog';
+import {Game} from "../typings/typeShared";
 
 const Games = () => {
-    const [games, setGames] = useState([]);
+    const [games, setGames] = useState<Game[]>([]);
     const [addGameOpen, setAddGameOpen] = useState(false);
 
     const getGames = () => {

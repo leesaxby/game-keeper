@@ -16,3 +16,19 @@ export type Deck = {
         data: Player
     },
 }
+
+export type Game = {
+    id: string,
+    first: boolean,
+    turnOneSolRing: boolean,
+    winMethod: 'COMBO' | 'COMBAT' | 'CONCEDE',
+    losers: { name: string, player: string }[],
+    winner: {
+        data: {
+            commander: string,
+            imageURL: string,
+            level: string,
+            name: string,
+        }
+    }
+};

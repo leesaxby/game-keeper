@@ -5,9 +5,10 @@ import Grid from "@mui/material/Grid";
 import Button from '@mui/material/Button';
 import DisplayCard from '../components/displayCard';
 import AddDeckDialog from '../components/addDeckDialog';
+import { Deck } from "../typings/typeShared";
 
 const Decks = () => {
-    const [decks, setDecks] = useState([]);
+    const [decks, setDecks] = useState<Deck[]>([]);
     const [addDeckOpen, setAddDeckOpen] = useState(false);
 
     const onAddDeckClose = () => {
