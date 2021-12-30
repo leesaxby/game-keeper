@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import { useEffect, useState } from 'react';
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -13,12 +13,18 @@ import DialogActions from "@mui/material/DialogActions";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import ToggleButton from '@mui/material/ToggleButton';
+import { Deck } from '../typings/typeShared';
 
-const AddGameDialog = ({ open, onClose }) => {
-    const [deckList, setDeckList] = useState([]);
-    const [winner, setWinner] = useState(null)
-    const [losers, setLosers] = useState([])
-    const [winMethod, setWinMethod] = useState('')
+type Props = {
+    open: boolean,
+    onClose: () => void,
+}
+
+const AddGameDialog = ({ open, onClose }:  Props) => {
+    const [deckList, setDeckList] = useState<Deck[]>([]);
+    const [winner, setWinner] = useState('');
+    const [losers, setLosers] = useState<Deck[]>([]);
+    const [winMethod, setWinMethod] = useState('');
     const [first, setFirst] = useState(false);
     const [turnOneSolRing, setTurnOneSolRing] = useState(false);
 
@@ -27,23 +33,23 @@ const AddGameDialog = ({ open, onClose }) => {
         fetch('/.netlify/functions/decks')
             .then(res => res.json())
             .then(res => setDeckList(res))
-            .catch(err => console.log(err))
-    }, [])
+            .catch(err => console.log(err));
+    }, []);
 
     const closeDialog = () => {
         // TODO: Improve this as state updates won't be batched due to being called from async
-        setWinner(null);
+        setWinner('');
         setLosers([]);
         setWinMethod('');
         setFirst(false);
         setTurnOneSolRing(false);
-        onClose()
-    }
+        onClose();
+    };
 
     const onSubmit = () => {
         fetch('/.netlify/functions/games-create', {
             body: JSON.stringify({
-                winner: winner.id,
+                winner: winner,
                 losers: losers.map(loser => loser.id),
                 winMethod,
                 first,
@@ -53,8 +59,8 @@ const AddGameDialog = ({ open, onClose }) => {
         })
         .then(res => res.json())
         .then(() => closeDialog())
-        .catch(err => console.log(err))
-    }
+        .catch(err => console.log(err));
+    };
 
     return (
         <Dialog
@@ -70,7 +76,7 @@ const AddGameDialog = ({ open, onClose }) => {
                     <Grid item xs={8}>
                         <Autocomplete
                             id="winner"
-                            onChange={(e, value) => setWinner(value)}
+                            onChange={(e, value) => setWinner(value?.id || '')}
                             options={deckList}
                             getOptionLabel={(option) => option.name}
                             renderInput={(params) => (
@@ -141,7 +147,7 @@ const AddGameDialog = ({ open, onClose }) => {
                 <Button onClick={onSubmit}>Submit</Button>
             </DialogActions>
         </Dialog>
-    )
-}
+    );
+};
 
 export default AddGameDialog;
