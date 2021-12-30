@@ -1,49 +1,49 @@
-import React, { useEffect, useState} from "react"
-import netlifyAuth from '../netlifyAuth.js'
+import React, { useEffect, useState} from "react";
+import netlifyAuth from '../netlifyAuth.js';
 import App from './app';
 
 const Index = () => {
-    let [loggedIn, setLoggedIn] = useState(netlifyAuth.isAuthenticated)
-    let [user, setUser] = useState(null)
+    let [loggedIn, setLoggedIn] = useState(netlifyAuth.isAuthenticated);
+    let [user, setUser] = useState(null);
 
     const login = () => {
         netlifyAuth.authenticate((user) => {
-            setLoggedIn(!!user)
-            setUser(user)
-            netlifyAuth.closeModal()
-        })
-    }
+            setLoggedIn(!!user);
+            setUser(user);
+            netlifyAuth.closeModal();
+        });
+    };
 
     const logout = () => {
         netlifyAuth.signout(() => {
-            setLoggedIn(false)
-            setUser(user)
-        })
-    }
+            setLoggedIn(false);
+            setUser(user);
+        });
+    };
 
     useEffect(() => {
         netlifyAuth.initialize((user) => {
-            setLoggedIn(!!user)
-        })
-    }, [loggedIn])
+            setLoggedIn(!!user);
+        });
+    }, [loggedIn]);
 
     useEffect(() => {
         if (!loggedIn) login();
-    }, [loggedIn])
+    }, [loggedIn]);
 
 
     return (
         <>
             loggedIn ? (
-                <App />
+            <App />
             ) : (
-                 <button onClick={login}>
-                     Log in here.
-                 </button>
+            <button onClick={login}>
+                Log in here.
+            </button>
             )
         </>
 
-    )
-}
+    );
+};
 
-export default Index
+export default Index;

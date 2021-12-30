@@ -1,12 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import * as React from 'react';
+import { useEffect, useState } from 'react';
 import Layout from '../components/layout';
 import Grid from "@mui/material/Grid";
 import Button from '@mui/material/Button';
 import DisplayCard from '../components/displayCard';
 import AddDeckDialog from '../components/addDeckDialog';
+import { Deck } from "../typings/typeShared";
 
 const Decks = () => {
-    const [decks, setDecks] = useState([]);
+    const [decks, setDecks] = useState<Deck[]>([]);
     const [addDeckOpen, setAddDeckOpen] = useState(false);
 
     const onAddDeckClose = () => {
@@ -22,14 +24,13 @@ const Decks = () => {
         fetch('/.netlify/functions/decks')
         .then(res => res.json())
         .then(res => setDecks(res))
-        .catch(err => console.log(err))
-
-    }
+        .catch(err => console.log(err));
+    };
 
     useEffect(() => {
         // Not listed in dependencies
-        getDecks()
-    }, [])
+        getDecks();
+    }, []);
 
     return (
         <>
@@ -58,7 +59,7 @@ const Decks = () => {
                                             player={player.data.name}
                                             imageURL={imageURL}/>
                                     </Grid>
-                                )
+                                );
                             })
                         }
                     </Grid>
@@ -67,7 +68,7 @@ const Decks = () => {
                     open={addDeckOpen}
                     onClose={onAddDeckClose} />
         </>
-    )
-}
+    );
+};
 
 export default Decks;

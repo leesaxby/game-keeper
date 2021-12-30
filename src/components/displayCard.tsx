@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import Card from "@mui/material/Card";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -14,8 +14,17 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 
-const DisplayCard = ({ commander, imageURL, name, level, player }) => {
-    const levelTitle = ` (${level})`
+type Props = {
+    imageURL: string,
+    name: string,
+    commander?: string,
+    level?: number,
+    player?: string,
+}
+
+const DisplayCard = ({ commander, imageURL, name, level, player }: Props) => {
+    const levelTitle = ` (${level})`;
+
     return (
         <Card sx={{ maxWidth: 345 }}>
             <CardMedia
@@ -82,7 +91,7 @@ const DisplayCard = ({ commander, imageURL, name, level, player }) => {
                 </List>
             </CardActions>
         </Card>
-    )
-}
+    );
+};
 
 export default DisplayCard;

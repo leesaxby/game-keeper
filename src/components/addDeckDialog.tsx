@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import * as React from 'react';
+import { useEffect, useState } from 'react';
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -16,33 +17,44 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import placeholderImg from '../images/placeholder.jpeg';
+import type { AlertColor } from '@mui/material/Alert';
 import Notification from './notification';
+import placeholderImg from '../images/placeholder.jpeg';
+import { Player } from '../typings/typeShared';
 
-const AddDeckDialog = ({ open, onClose }) => {
-    const [playerList, setPlayerList] = useState([]);
-    const [commanderList, setCommanderList] = useState([''])
+type Props = {
+    open: boolean,
+    onClose: () => void,
+}
+
+const AddDeckDialog = ({ open, onClose }: Props) => {
+    const [playerList, setPlayerList] = useState<Player[]>([]);
+    const [commanderList, setCommanderList] = useState(['']);
     const [commanderSearchTerm, setCommanderSearchTerm] = useState('');
 
-    const [commander, setCommander] = useState('')
+    const [commander, setCommander] = useState('');
     const [player, setPlayer] = useState('');
     const [level, setLevel] = useState('');
     const [name, setName] = useState('');
     const [imageURL, setImageURL] = useState('');
 
-    const [notifyOpts, setNotifyOpts] = useState({
+    const [notifyOpts, setNotifyOpts] = useState<{
+        open: boolean,
+        message: string,
+        severity: AlertColor,
+    }>({
         open: false,
         message: '',
         severity: 'success',
-    })
+    });
 
     // Get players
     useEffect(() => {
         fetch('/.netlify/functions/players')
             .then(res => res.json())
             .then(res => setPlayerList(res))
-            .catch(err => console.log(err))
-    }, [])
+            .catch(err => console.log(err));
+    }, []);
 
     // Get list of commanders on search
     useEffect(() => {
@@ -50,21 +62,21 @@ const AddDeckDialog = ({ open, onClose }) => {
             fetch(encodeURI(`https://api.scryfall.com/cards/autocomplete?q=${commanderSearchTerm}`))
                 .then(res => res.json())
                 .then(res =>  setCommanderList(res.data))
-                .catch(err => console.log(err))
+                .catch(err => console.log(err));
         }
-    }, [commanderSearchTerm])
+    }, [commanderSearchTerm]);
 
     const validateInputs = () => {
         switch(false) {
             case !!commander:
-            case !!player?.id:
+            case !!player:
             case !!level:
-            case !!name:;
+            case !!name:
                 return false;
             default:
                 return true;
-        };        
-    }
+        }
+    };
 
     const closeDialog = () => {
         // TODO: Improve this as state updates won't be batched due to being called  from async
@@ -74,14 +86,15 @@ const AddDeckDialog = ({ open, onClose }) => {
         setName('');
         setImageURL('');
         onClose();
-    }
+    };
 
     // When commander is selected from the list, fetch card image from api
-    const onSelectCommander = (e, value) => {
+    const onSelectCommander = (e: React.SyntheticEvent, value: string | null) => {
+        if (!value) return;
         fetch(encodeURI(`https://api.scryfall.com/cards/named?exact=${value}`))
             .then(res => res.json())
             .then(res => setImageURL(res.image_uris.art_crop))
-            .catch(err => console.log(err))
+            .catch(err => console.log(err));
 
         setCommander(value);
     };
@@ -91,7 +104,7 @@ const AddDeckDialog = ({ open, onClose }) => {
             fetch('/.netlify/functions/decks-create', {
                 body: JSON.stringify({
                     commander,
-                    player: player.id,
+                    player: player,
                     level,
                     name,
                     imageURL,
@@ -99,23 +112,23 @@ const AddDeckDialog = ({ open, onClose }) => {
                 method: 'POST'
             })
             .then(res => res.json())
-            .then(res => {
-                closeDialog()
+            .then(() => {
+                closeDialog();
                 setNotifyOpts({
                     open: true,
-                    message: 'Deck successfuly created!',
+                    message: 'Deck Successfully Created!',
                     severity: 'success',
-                })
+                });
             })
-            .catch(err => console.log(err))  
+            .catch(err => console.log(err));
         } else {
             setNotifyOpts({
                 open: true,
                 message: 'Please complete all form fields!',
                 severity: 'error',
-            })
-        }      
-    }
+            });
+        }
+    };
 
     return (
         <>
@@ -139,7 +152,7 @@ const AddDeckDialog = ({ open, onClose }) => {
                                 <Grid item xs={8}>
                                     <Autocomplete
                                         id="commander"
-                                        onChange={onSelectCommander}
+                                        onChange={(e, value) => onSelectCommander(e, value)}
                                         inputValue={commanderSearchTerm}
                                         onInputChange={(e, value) => setCommanderSearchTerm(value)}
                                         options={commanderList}
@@ -161,11 +174,11 @@ const AddDeckDialog = ({ open, onClose }) => {
                                                     return (
                                                         <MenuItem
                                                             key={player.id}
-                                                            value={player}>
+                                                            value={player.id}>
                                                             { player.name }
                                                         </MenuItem>
 
-                                                    )
+                                                    );
                                                 })
                                             }
                                         </Select>
@@ -195,8 +208,6 @@ const AddDeckDialog = ({ open, onClose }) => {
                             </Grid>
                         </CardContent>
                     </Card>
-
-
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => onClose()}>Cancel</Button>
@@ -205,7 +216,7 @@ const AddDeckDialog = ({ open, onClose }) => {
             </Dialog>
             <Notification { ...notifyOpts } onClose={() => setNotifyOpts({ ...notifyOpts, open: false })} />
         </>
-    )
-}
+    );
+};
 
 export default AddDeckDialog;

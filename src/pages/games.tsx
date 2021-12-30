@@ -1,4 +1,5 @@
-import React, {useEffect, useState} from 'react';
+import * as React from 'react';
+import { useEffect, useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -8,23 +9,24 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Layout from '../components/layout';
 import Button from "@mui/material/Button";
-import AddGameDialog from '../components/addGameDialog'
+import AddGameDialog from '../components/addGameDialog';
+import {Game} from "../typings/typeShared";
 
 const Games = () => {
-    const [games, setGames] = useState([]);
+    const [games, setGames] = useState<Game[]>([]);
     const [addGameOpen, setAddGameOpen] = useState(false);
 
     const getGames = () => {
         fetch('/.netlify/functions/games')
             .then(res => res.json())
             .then(res => setGames(res))
-            .catch(err => console.log(err))
-    }
+            .catch(err => console.log(err));
+    };
 
     useEffect(() => {
         // Not listed in dependencies
-        getGames()
-    }, [])
+        getGames();
+    }, []);
 
     const onAddGameClose = () => {
         setAddGameOpen(false);
@@ -69,7 +71,7 @@ const Games = () => {
                 open={addGameOpen}
                 onClose={onAddGameClose} />
         </>
-    )
-}
+    );
+};
 
 export default Games;
