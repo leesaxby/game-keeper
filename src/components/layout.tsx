@@ -28,7 +28,13 @@ const theme = createTheme({
       }
 });
 
-const Layout = ({ children, actions = null, title = '' }) => (
+type Props = {
+    children: React.ReactNode,
+    actions: React.ReactNode,
+    title: string,
+}
+
+const Layout = ({ children, actions = null, title = '' }: Props) => (
     <ThemeProvider theme={theme}>
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />

@@ -14,8 +14,17 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 
-const DisplayCard = ({ commander, imageURL, name, level, player }) => {
+type Props = {
+    commander: string,
+    imageURL: string,
+    name: string,
+    level: string,
+    player: string,
+}
+
+const DisplayCard = ({ commander, imageURL, name, level, player }: Props) => {
     const levelTitle = ` (${level})`;
+
     return (
         <Card sx={{ maxWidth: 345 }}>
             <CardMedia
