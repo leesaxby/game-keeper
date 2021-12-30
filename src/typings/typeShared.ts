@@ -16,4 +16,3 @@ export type Deck = {
         data: Player
     },
 }
-

@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import { useEffect, useState } from 'react';
 import Grid from '@mui/material/Grid';
 import Layout from '../components/layout';
@@ -11,9 +11,8 @@ const Players = () => {
         fetch('/.netlify/functions/players')
             .then(res => res.json())
             .then(res => setPlayers(res))
-            .catch(err => console.log(err))
-
-    }, [])
+            .catch(err => console.log(err));
+    }, []);
 
     return (
         <Layout title="Players">
@@ -32,13 +31,13 @@ const Players = () => {
                                         name={name}
                                         imageURL={imageURL} />
                                 </Grid>
-                            )
+                            );
                         })
                     }
                 </Grid>
         </Layout>
-    )
-}
+    );
+};
 
 
 

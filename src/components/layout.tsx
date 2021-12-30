@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import AppBar from '@mui/material/AppBar';
@@ -11,13 +11,12 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/Inbox';
 import CasinoIcon from '@mui/icons-material/Casino';
 import CssBaseline from '@mui/material/CssBaseline';
-import { navigate } from "gatsby"
+import { navigate } from "gatsby";
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import Grid from "@mui/material/Grid";
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import createTheme from '@mui/material/styles/createTheme';
 import Divider from '@mui/material/Divider';
-
 
 const drawerWidth = 200;
 

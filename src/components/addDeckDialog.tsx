@@ -1,4 +1,4 @@
-import * as React from 'react'
+import * as React from 'react';
 import { useEffect, useState } from 'react';
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -28,10 +28,10 @@ type Props = {
 
 const AddDeckDialog = ({ open, onClose }: Props) => {
     const [playerList, setPlayerList] = useState<Player[]>([]);
-    const [commanderList, setCommanderList] = useState([''])
+    const [commanderList, setCommanderList] = useState(['']);
     const [commanderSearchTerm, setCommanderSearchTerm] = useState('');
 
-    const [commander, setCommander] = useState('')
+    const [commander, setCommander] = useState('');
     const [player, setPlayer] = useState('');
     const [level, setLevel] = useState('');
     const [name, setName] = useState('');
@@ -41,15 +41,15 @@ const AddDeckDialog = ({ open, onClose }: Props) => {
         open: false,
         message: '',
         severity: 'success',
-    })
+    });
 
     // Get players
     useEffect(() => {
         fetch('/.netlify/functions/players')
             .then(res => res.json())
             .then(res => setPlayerList(res))
-            .catch(err => console.log(err))
-    }, [])
+            .catch(err => console.log(err));
+    }, []);
 
     // Get list of commanders on search
     useEffect(() => {
@@ -57,9 +57,9 @@ const AddDeckDialog = ({ open, onClose }: Props) => {
             fetch(encodeURI(`https://api.scryfall.com/cards/autocomplete?q=${commanderSearchTerm}`))
                 .then(res => res.json())
                 .then(res =>  setCommanderList(res.data))
-                .catch(err => console.log(err))
+                .catch(err => console.log(err));
         }
-    }, [commanderSearchTerm])
+    }, [commanderSearchTerm]);
 
     const validateInputs = () => {
         switch(false) {
@@ -71,7 +71,7 @@ const AddDeckDialog = ({ open, onClose }: Props) => {
             default:
                 return true;
         }
-    }
+    };
 
     const closeDialog = () => {
         // TODO: Improve this as state updates won't be batched due to being called  from async
@@ -81,7 +81,7 @@ const AddDeckDialog = ({ open, onClose }: Props) => {
         setName('');
         setImageURL('');
         onClose();
-    }
+    };
 
     // When commander is selected from the list, fetch card image from api
     const onSelectCommander = (e: React.SyntheticEvent, value: string | null) => {
@@ -89,7 +89,7 @@ const AddDeckDialog = ({ open, onClose }: Props) => {
         fetch(encodeURI(`https://api.scryfall.com/cards/named?exact=${value}`))
             .then(res => res.json())
             .then(res => setImageURL(res.image_uris.art_crop))
-            .catch(err => console.log(err))
+            .catch(err => console.log(err));
 
         setCommander(value);
     };
@@ -108,22 +108,22 @@ const AddDeckDialog = ({ open, onClose }: Props) => {
             })
             .then(res => res.json())
             .then(() => {
-                closeDialog()
+                closeDialog();
                 setNotifyOpts({
                     open: true,
                     message: 'Deck Successfully Created!',
                     severity: 'success',
-                })
+                });
             })
-            .catch(err => console.log(err))
+            .catch(err => console.log(err));
         } else {
             setNotifyOpts({
                 open: true,
                 message: 'Please complete all form fields!',
                 severity: 'error',
-            })
+            });
         }
-    }
+    };
 
     return (
         <>
@@ -147,10 +147,7 @@ const AddDeckDialog = ({ open, onClose }: Props) => {
                                 <Grid item xs={8}>
                                     <Autocomplete
                                         id="commander"
-                                        onChange={(e, value) => {
-                                            console.log(value)
-                                            onSelectCommander(e, value)
-                                        }}
+                                        onChange={(e, value) => onSelectCommander(e, value)}
                                         inputValue={commanderSearchTerm}
                                         onInputChange={(e, value) => setCommanderSearchTerm(value)}
                                         options={commanderList}
@@ -176,7 +173,7 @@ const AddDeckDialog = ({ open, onClose }: Props) => {
                                                             { player.name }
                                                         </MenuItem>
 
-                                                    )
+                                                    );
                                                 })
                                             }
                                         </Select>
@@ -214,7 +211,7 @@ const AddDeckDialog = ({ open, onClose }: Props) => {
             </Dialog>
             <Notification { ...notifyOpts } onClose={() => setNotifyOpts({ ...notifyOpts, open: false })} />
         </>
-    )
-}
+    );
+};
 
 export default AddDeckDialog;
