@@ -29,6 +29,7 @@ exports.handler = async (event) => {
                                         item: q.Get(q.Var('deckRef')),
                                     },
                                     {
+                                        id: q.Select(["ref", "id"], q.Var("item")),
                                         name: q.Select(['data', 'name'], q.Var('item')),
                                         player: q.Select(['data', 'name'],q.Get(q.Select(['data', 'player'], q.Var('item')))),
                                     }

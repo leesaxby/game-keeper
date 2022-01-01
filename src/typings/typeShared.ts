@@ -22,7 +22,7 @@ export type Game = {
     first: boolean,
     turnOneSolRing: boolean,
     winMethod: 'COMBO' | 'COMBAT' | 'CONCEDE',
-    losers: { name: string, player: string }[],
+    losers: { id: string, name: string, player: string }[],
     winner: {
         data: {
             commander: string,

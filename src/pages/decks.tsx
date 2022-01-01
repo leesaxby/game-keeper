@@ -53,6 +53,7 @@ const Decks = () => {
                                         item
                                         key={id}>
                                         <DisplayCard
+                                            id={id}
                                             name={name}
                                             commander={commander}
                                             level={level}

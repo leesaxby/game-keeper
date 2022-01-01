@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect,  useState } from "react";
 import Card from "@mui/material/Card";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -13,9 +14,10 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import {useEffect, useState} from "react";
+import { Game } from "../typings/typeShared";
 
 type Props = {
+    id: string,
     imageURL: string,
     name: string,
     commander?: string,
@@ -23,8 +25,18 @@ type Props = {
     player?: string,
 }
 
-const DisplayCard = ({ commander, imageURL, name, level, player }: Props) => {
+const getWinRate = (wins: number, losses: number) => Math.round(wins / (wins + losses) * 100);
+
+const countLosses = (games: Game[], deckId: string) => games
+        .map(({ losers }) => losers)
+        .flat()
+        .filter(loser => loser.id === deckId)
+        .length;
+
+const DisplayCard = ({ id, commander, imageURL, name, level, player }: Props) => {
     const [winCount, setWinCount] = useState(0);
+    const [lossCount, setLossCount] = useState(0);
+    const [winRate, setWinRate] = useState(0);
     const levelTitle = ` (${level})`;
 
     useEffect(() => {
@@ -33,8 +45,20 @@ const DisplayCard = ({ commander, imageURL, name, level, player }: Props) => {
                 .then(res => res.json())
                 .then(res => setWinCount(res.length))
                 .catch(err => console.log(err));
+
+            // TODO: Create a new function to just pull back the losses instead of pulling all games.
+            fetch('/.netlify/functions/games')
+                .then(res => res.json())
+                .then(res => setLossCount(countLosses(res, id)))
+                .catch(err => console.log(err));
         }
-    });
+    }, []);
+
+    useEffect(() => {
+        if (winCount + lossCount > 0) {
+            setWinRate(getWinRate(winCount, lossCount));
+        }
+    }, [winCount, lossCount]);
 
     return (
         <Card sx={{ maxWidth: 345 }}>
@@ -86,17 +110,17 @@ const DisplayCard = ({ commander, imageURL, name, level, player }: Props) => {
                             </Avatar>
                         </ListItemAvatar>
                         <ListItemText
-                            primary={5}
+                            primary={lossCount}
                         />
                     </ListItem>
-                    <ListItem >
+                    <ListItem sx={{ minWidth: 125 }}>
                         <ListItemAvatar>
                             <Avatar sx={{ bgcolor: blue[500] }}>
                                 <WinRate />
                             </Avatar>
                         </ListItemAvatar>
                         <ListItemText
-                            primary="45%"
+                            primary={`${winRate}%`}
                         />
                     </ListItem>
                 </List>
