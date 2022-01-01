@@ -13,6 +13,7 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
+import {useEffect, useState} from "react";
 
 type Props = {
     imageURL: string,
@@ -23,7 +24,17 @@ type Props = {
 }
 
 const DisplayCard = ({ commander, imageURL, name, level, player }: Props) => {
+    const [winCount, setWinCount] = useState(0);
     const levelTitle = ` (${level})`;
+
+    useEffect(() => {
+        if (commander) {
+            fetch('/.netlify/functions/deck-wins')
+                .then(res => res.json())
+                .then(res => setWinCount(res.length))
+                .catch(err => console.log(err));
+        }
+    });
 
     return (
         <Card sx={{ maxWidth: 345 }}>
@@ -64,7 +75,7 @@ const DisplayCard = ({ commander, imageURL, name, level, player }: Props) => {
                             </Avatar>
                         </ListItemAvatar>
                         <ListItemText
-                            primary={5}
+                            primary={winCount}
                         />
 
                     </ListItem>
