@@ -4,7 +4,7 @@
 </h1>
 
 <p>
-  App to record magic the gathering players, decks and game results.</p>
+  App to record magic the gathering players, decks, game results and stats.</p>
 <p>
   The app makes use of the <a href="https://scryfall.com/docs/api">Scryfall API</a> for card info and images.
 </p>
