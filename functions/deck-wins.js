@@ -6,6 +6,8 @@ const client = new faunadb.Client({
 });
 
 exports.handler = async (event) => {
+    const deckId = event.queryStringParameters.deckId;
+
     if (event.httpMethod !== 'GET'){
         return { statusCode: 500, body: 'GET OUTTA HERE!' };
     }
@@ -13,7 +15,7 @@ exports.handler = async (event) => {
     try {
         const req = await client.query(
             q.Map(
-                q.Paginate(q.Match(q.Index("wins-by-deck"), q.Ref(q.Collection("decks"), "317990343720043081"))),
+                q.Paginate(q.Match(q.Index("wins-by-deck"), q.Ref(q.Collection("decks"), deckId))),
                 q.Lambda("ref", q.Get(q.Var("ref"))),
             ),
         );

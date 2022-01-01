@@ -41,7 +41,7 @@ const DisplayCard = ({ id, commander, imageURL, name, level, player }: Props) =>
 
     useEffect(() => {
         if (commander) {
-            fetch('/.netlify/functions/deck-wins')
+            fetch(`/.netlify/functions/deck-wins?deckId=${id}`, )
                 .then(res => res.json())
                 .then(res => setWinCount(res.length))
                 .catch(err => console.log(err));
