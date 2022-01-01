@@ -1,13 +1,13 @@
 const faunadb = require('faunadb');
 
-const q = faunadb.query
+const q = faunadb.query;
 const client = new faunadb.Client({
     secret: process.env.FAUNADB_SERVER_SECRET
-})
+});
 
-exports.handler = async (event, context) => {
+exports.handler = async (event) => {
     if (event.httpMethod !== 'GET'){
-        return { statusCode: 500, body: 'GET OUTTA HERE!' }
+        return { statusCode: 500, body: 'GET OUTTA HERE!' };
     }
 
     try {
@@ -29,10 +29,10 @@ exports.handler = async (event, context) => {
                   )
                 )
             )
-        )
+        );
 
-        return { statusCode: 200, body: JSON.stringify(req.data) }
+        return { statusCode: 200, body: JSON.stringify(req.data) };
     } catch (err) {
-        return { statusCode: 500, body: JSON.stringify({ error: err.message}) }
+        return { statusCode: 500, body: JSON.stringify({ error: err.message}) };
     }
-}
+};
