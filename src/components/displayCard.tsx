@@ -61,7 +61,7 @@ const DisplayCard = ({ id, commander, imageURL, name, level, player }: Props) =>
     }, [winCount, lossCount]);
     
     return (
-        <Card sx={{ maxWidth: 345 }}>
+        <Card sx={{ width: 345 }}>
             <CardMedia
                 component="img"
                 height="194"
@@ -69,17 +69,33 @@ const DisplayCard = ({ id, commander, imageURL, name, level, player }: Props) =>
                 alt="Commander"
             />
             <CardContent>
-                <Typography component="div" variant="h6">
+                <Typography
+                    noWrap
+                    component="div"
+                    variant="h6"
+                    title={name}>
                     {name}
                 </Typography>
+
                 {
                     commander && (
-                        <Typography variant="subtitle2" color="text.secondary" component="div">
+                        <Typography
+                            noWrap
+                            variant="subtitle2"
+                            color="text.secondary"
+                            component="div"
+                            title={`${commander}${level ? levelTitle : ''}`}>
                             {`${commander}${level ? levelTitle : ''}`}
                         </Typography>
                     )
                 }
-                <Typography variant="subtitle2" color="text.secondary" component="div">
+
+                <Typography
+                    noWrap
+                    variant="subtitle2"
+                    color="text.secondary"
+                    component="div"
+                    title={player}>
                     {player}
                 </Typography>
             </CardContent>
