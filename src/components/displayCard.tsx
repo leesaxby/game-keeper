@@ -83,12 +83,14 @@ const DisplayCard = ({ id, commander, imageURL, name, level, player }: Props) =>
                     {player}
                 </Typography>
             </CardContent>
-            <CardActions disableSpacing>
+            <CardActions disableSpacing sx={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                    }}>
                 <List
                     dense
                     sx={{
                         display: 'flex',
-                        flexDirection: 'row',
                         padding: 0,
                         marginBottom: 1,
                     }}>
@@ -113,7 +115,7 @@ const DisplayCard = ({ id, commander, imageURL, name, level, player }: Props) =>
                             primary={lossCount}
                         />
                     </ListItem>
-                    <ListItem sx={{ minWidth: 125 }}>
+                    <ListItem>
                         <ListItemAvatar>
                             <Avatar sx={{ bgcolor: blue[500] }}>
                                 <WinRate />
