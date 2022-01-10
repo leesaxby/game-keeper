@@ -59,7 +59,7 @@ const DisplayCard = ({ id, commander, imageURL, name, level, player }: Props) =>
             setWinRate(getWinRate(winCount, lossCount));
         }
     }, [winCount, lossCount]);
-
+    
     return (
         <Card sx={{ maxWidth: 345 }}>
             <CardMedia

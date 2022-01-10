@@ -91,9 +91,16 @@ const AddDeckDialog = ({ open, onClose }: Props) => {
     // When commander is selected from the list, fetch card image from api
     const onSelectCommander = (e: React.SyntheticEvent, value: string | null) => {
         if (!value) return;
+
         fetch(encodeURI(`https://api.scryfall.com/cards/named?exact=${value}`))
             .then(res => res.json())
-            .then(res => setImageURL(res.image_uris.art_crop))
+            .then(res => {
+                const art_uri = res.image_uris.art_crop
+                    ? res.image_uris.art_crop
+                    : res.card_faces[0].image_uris.art_crop;      
+
+                setImageURL(art_uri)
+            })
             .catch(err => console.log(err));
 
         setCommander(value);
