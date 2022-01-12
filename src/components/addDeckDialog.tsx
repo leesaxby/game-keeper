@@ -79,7 +79,7 @@ const AddDeckDialog = ({ open, onClose }: Props) => {
     };
 
     const closeDialog = () => {
-        // TODO: Improve this as state updates won't be batched due to being called  from async
+        // TODO: Improve this as state updates won't be batched due to being called from async
         setCommander('');
         setPlayer('');
         setLevel('');
@@ -217,7 +217,7 @@ const AddDeckDialog = ({ open, onClose }: Props) => {
                     </Card>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => onClose()}>Cancel</Button>
+                    <Button onClick={() => closeDialog()}>Cancel</Button>
                     <Button onClick={onSubmit}>Submit</Button>
                 </DialogActions>
             </Dialog>
