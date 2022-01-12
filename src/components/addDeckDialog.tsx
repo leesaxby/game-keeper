@@ -95,7 +95,7 @@ const AddDeckDialog = ({ open, onClose }: Props) => {
         fetch(encodeURI(`https://api.scryfall.com/cards/named?exact=${value}`))
             .then(res => res.json())
             .then(res => {
-                const art_uri = res.image_uris.art_crop
+                const art_uri = res.image_uris
                     ? res.image_uris.art_crop
                     : res.card_faces[0].image_uris.art_crop;      
 
@@ -207,7 +207,7 @@ const AddDeckDialog = ({ open, onClose }: Props) => {
                                         size="large"
                                         onChange={(e, value) => setLevel(value)}>
                                         {
-                                            ['1','2','3','4','5','6','7','9','10']
+                                            ['1','2','3','4','5','6','7', '8', '9','10']
                                                 .map(x => <ToggleButton key={x} value={x}>{x}</ToggleButton>)
                                         }
                                     </ToggleButtonGroup>
